@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú - Restaurante</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { background: #1a1a1a; color: #f5f5f5; font-family: 'Segoe UI', sans-serif; }
+    h1, h2 { text-align: center; margin: 20px 0; color: #ffb347; font-weight: bold; }
+    .menu-section { margin: 50px 0; }
+    .menu-list { list-style: none; padding: 0; }
+    .menu-list li {
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #ffb347;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease-in-out;
+    }
+    .menu-list li:hover { background: rgba(255, 179, 71, 0.2); transform: translateX(5px); }
+    .price { color: #ffda77; font-weight: bold; }
+    footer { text-align: center; padding: 20px; background: #111; color: #aaa; margin-top: 50px; font-size: 0.9rem; }
+    footer .dev { margin-top: 5px; font-size: 0.8rem; color: #ffb347; }
+    .admin-link { text-align: center; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 data-aos="fade-down">🍽️ Menú del Restaurante</h1>
+    <div class="admin-link">
+      <a href="admin.html" class="btn btn-warning">⚙️ Administrar Menú</a>
+    </div>
+    <div id="menuContainer"></div>
+  </div>
+
+  <footer>
+    <p>© 2025 Restaurante Ejemplo - Todos los derechos reservados.</p>
+    <p class="dev">💻 Desarrollado por SAhumada</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // Leer productos de localStorage
+    let productos = JSON.parse(localStorage.getItem('productos')) || [
+      {nombre:"Ensalada César", precio:2500, categoria:"Entradas"},
+      {nombre:"Bruschettas", precio:1800, categoria:"Entradas"},
+      {nombre:"Sopa de Calabaza", precio:2000, categoria:"Entradas"},
+      {nombre:"Empanadas Criollas", precio:2200, categoria:"Entradas"},
+      {nombre:"Bife de Chorizo con papas", precio:6500, categoria:"Platos principales"},
+      {nombre:"Pasta con Salsa Alfredo", precio:5200, categoria:"Platos principales"},
+      {nombre:"Pizza Margarita", precio:4800, categoria:"Platos principales"},
+      {nombre:"Pollo a la parrilla con ensalada", precio:5900, categoria:"Platos principales"},
+      {nombre:"Cheesecake de frutos rojos", precio:2800, categoria:"Postres"},
+      {nombre:"Brownie con helado", precio:2500, categoria:"Postres"},
+      {nombre:"Flan casero", precio:2200, categoria:"Postres"},
+      {nombre:"Helados artesanales", precio:2400, categoria:"Postres"},
+      {nombre:"Agua mineral", precio:1200, categoria:"Bebidas"},
+      {nombre:"Gaseosa", precio:1500, categoria:"Bebidas"},
+      {nombre:"Cerveza artesanal", precio:2300, categoria:"Bebidas"},
+      {nombre:"Copa de vino Malbec", precio:3000, categoria:"Bebidas"},
+    ];
+
+    function mostrarMenu() {
+      const container = document.getElementById('menuContainer');
+      const categorias = ["Entradas","Platos principales","Postres","Bebidas"];
+      container.innerHTML = '';
+
+      categorias.forEach(cat => {
+        const items = productos.filter(p => p.categoria===cat);
+        if(items.length>0){
+          container.innerHTML += `
+            <div class="menu-section" data-aos="fade-${cat==="Entradas"||cat==="Postres"?"right":"left"}">
+              <h2>${cat==="Entradas"?"🥗 ":cat==="Platos principales"?"🍝 ":cat==="Postres"?"🍰 ":"🍷 "}${cat}</h2>
+              <ul class="menu-list">
+                ${items.map(i=>`<li>${i.nombre} <span class="price">$${i.precio}</span></li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+      });
+    }
+
+    mostrarMenu();
+  </script>
+</body>
+</html>
